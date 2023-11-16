@@ -4,4 +4,4 @@ project(mini-AES)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
 
-add_executable(miniaes main.c miniaes.c miniaes.h)
+add_executable(miniaes main.c miniaes.c miniaes.h keysched.h keysched.c)
