@@ -20,7 +20,7 @@ void miniaes_encrypt(
     // Round 1
     nibble_sub(word);
     shift_row(word);
-    mix_colum(word);
+    mix_column(word);
 
     key_addition(word, round_keys[1]);
 

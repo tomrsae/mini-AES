@@ -1,4 +1,5 @@
 #include "keysched.h"
+#include "gfmp.h"
 
 #define MOFX 0x13 // m(x) = x⁴ + x + 1 => 10011
 #define RCON1 0x1
@@ -50,7 +51,7 @@ void shift_row(unsigned char* word)
     word[1] = rotl_byte(word[1], 4);
 }
 
-void mix_colum(unsigned char* word)
+void mix_column(unsigned char* word)
 {
     // c0 c2 -> d0 d2
     // c1 c3 -> d1 d3
@@ -59,10 +60,14 @@ void mix_colum(unsigned char* word)
     unsigned char c2 = word[0] & 0x0F;
     unsigned char c3 = word[1] & 0x0F;
 
-    unsigned char d0 = (3 * c0 % MOFX) ^ (2 * c1 % MOFX);
-    unsigned char d1 = (2 * c0 % MOFX) ^ (3 * c1 % MOFX);
-    unsigned char d2 = (3 * c2 % MOFX) ^ (2 * c3 % MOFX);
-    unsigned char d3 = (2 * c2 % MOFX) ^ (3 * c3 % MOFX);
+    // unsigned char d0 = (3 * c0 % MOFX) ^ (2 * c1 % MOFX);
+    // unsigned char d1 = (2 * c0 % MOFX) ^ (3 * c1 % MOFX);
+    // unsigned char d2 = (3 * c2 % MOFX) ^ (2 * c3 % MOFX);
+    // unsigned char d3 = (2 * c2 % MOFX) ^ (3 * c3 % MOFX);
+    unsigned char d0 = multiply(3, c0) ^ multiply(2, c1);
+    unsigned char d1 = multiply(2, c0) ^ multiply(3, c1);
+    unsigned char d2 = multiply(3, c2) ^ multiply(2, c3);
+    unsigned char d3 = multiply(2, c2) ^ multiply(3, c3);
 
     word[0] = (d0 << 4) | d2;
     word[1] = (d1 << 4) | d3;
