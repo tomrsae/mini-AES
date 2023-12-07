@@ -3,13 +3,20 @@
 
 int main(int argc, char** argv)
 {
-	unsigned char p[2] = { 0b10011100, 0b01100011 }; // 1001 1100 0110 0011
-	unsigned char k[2] = { 0b11000011, 0b11110000 }; // 1100 0011 1111 0000
-	unsigned char buf[2]; // SHOULD BE: 0111 0010 1100 0110 (114 198)
+	unsigned char p[2] = { 0b10011100, 0b01100011 };
+	unsigned char k[2] = { 0b11000011, 0b11110000 };
+	unsigned char c_buf[2];
 
-	miniaes_encrypt(p, k, buf);
+	printf("Plaintext: %d %d\n", p[0], p[1]);
 
-	printf("%d %d\n", buf[0], buf[1]);
+	miniaes_encrypt(p, k, c_buf);
+
+	printf("Ciphertext: %d %d\n", c_buf[0], c_buf[1]);
+
+	unsigned char p_buf[2];
+	miniaes_decrypt(c_buf, k, p_buf);
+
+	printf("Decrypted Plaintext: %d %d\n", p_buf[0], p_buf[1]);
 
 	return 0;
 }
